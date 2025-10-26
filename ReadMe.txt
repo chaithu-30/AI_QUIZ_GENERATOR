@@ -4,12 +4,12 @@ Generate AI-powered quizzes from Wikipedia articles using Django, React, MySQL, 
 
 ## Features
 
-- 🤖 AI-powered quiz generation using Google Gemini 2.5 Flash via LangChain
-- 📚 Automatic Wikipedia article scraping with BeautifulSoup
-- 💾 MySQL database storage for quiz history
-- 🎨 Clean React UI with two tabs (Generate & History)
-- ✅ Structured output with questions, entities, and related topics
-- 🔄 Duplicate URL detection and caching
+-  AI-powered quiz generation using Google Gemini 2.5 Flash via LangChain
+- Automatic Wikipedia article scraping with BeautifulSoup
+- MySQL database storage for quiz history
+- Clean React UI with two tabs (Generate & History)
+-  Structured output with questions, entities, and related topics
+- Duplicate URL detection and caching
 
 ## Tech Stack
 
@@ -57,7 +57,7 @@ text
 - Python 3.10+
 - Node.js 16+
 - MySQL 8.0+
-- Google Gemini API key ([Get it here](https://ai.google.dev/))
+- Google Gemini API key ([Get it here](https://aistudio.google.com/api-keys?_gl=1*16wvpxc*_ga*MTM5Mjg3MzQ4My4xNzYxNDU4NjUz*_ga_P1DBVKWT6V*czE3NjE0ODg3ODUkbzIkZzAkdDE3NjE0ODg3ODUkajYwJGwwJGgxNTI5MjkyODg2
 
 ### Backend Setup
 
@@ -213,14 +213,13 @@ text
 See `sample_data/` folder for example Wikipedia URLs and their generated quiz outputs.
 
 ## Features Implemented
-
-✅ All core requirements  
-✅ Duplicate URL caching  
-✅ Raw HTML storage  
-✅ Error handling for invalid URLs  
-✅ Loading states and error messages  
-✅ Modal for quiz details  
-✅ Responsive card-based layout  
+All core requirements  
+ Duplicate URL caching  
+ Raw HTML storage  
+ Error handling for invalid URLs  
+Loading states and error messages  
+ Modal for quiz details  
+Responsive card-based layout  
 
 ## Known Limitations
 
