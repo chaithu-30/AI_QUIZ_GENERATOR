@@ -206,23 +206,6 @@ text
 ### Test Quiz Details:
 curl http://127.0.0.1:8000/api/quiz/1/
 
-text
-
-## Sample Output
-
-See `sample_data/` folder for example Wikipedia URLs and their generated quiz outputs.
-
-## Features Implemented
-All core requirements  
- Duplicate URL caching  
- Raw HTML storage  
- Error handling for invalid URLs  
-Loading states and error messages  
- Modal for quiz details  
-Responsive card-based layout  
-
-## Known Limitations
-
 - Rate limited by Gemini free tier (15 requests/minute)
 - Very long articles are truncated to 15,000 characters
 - Only English Wikipedia supported
