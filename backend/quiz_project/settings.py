@@ -108,6 +108,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
+    "https://ai-quiz-generator-pink.vercel.app",
 ]
 if os.getenv('FRONTEND_URL'):
     CORS_ALLOWED_ORIGINS.append(os.getenv('FRONTEND_URL'))
