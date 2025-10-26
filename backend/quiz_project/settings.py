@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-your-default-key-here')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Allowed hosts - Update for production
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ai-quiz-backend.onrender.com']
 if os.getenv('RENDER'):
     ALLOWED_HOSTS.append(os.getenv('RENDER_EXTERNAL_HOSTNAME'))
 
