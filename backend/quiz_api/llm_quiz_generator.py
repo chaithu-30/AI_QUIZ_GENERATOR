@@ -20,35 +20,17 @@ if not os.getenv('GEMINI_API_KEY'):
     print(f".env file exists: {dotenv_path.exists()}")
     raise ValueError("GEMINI_API_KEY not found in environment variables")
 def generate_quiz(title: str, cleaned_text: str) -> dict:
-    """
-    Uses LangChain + Gemini to generate a structured quiz from Wikipedia article text.
-    
-    Args:
-        title: Article title
-        cleaned_text: Cleaned article content
-        
-    Returns:
-        Dictionary containing quiz data (title, summary, key_entities, sections, quiz, related_topics)
-        
-    Raises:
-        Exception: If LLM generation or parsing fails
-    """
-    
     # Get API key from environment
     api_key = os.getenv('GEMINI_API_KEY')
     if not api_key:
         raise ValueError("GEMINI_API_KEY not found in environment variables")
-    
-    # Initialize Gemini model via LangChain
     # Initialize Gemini model via LangChain
     llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",  # Updated to current model
+    model="gemini-2.5-flash", 
     google_api_key=api_key,
     temperature=0.3,
     max_output_tokens=4096,
 )
-
-    # Set up JSON output parser with Pydantic schema
     parser = JsonOutputParser(pydantic_object=QuizOutput)
     
     # Get format instructions from the parser
@@ -129,39 +111,3 @@ Generate a quiz with 5-7 questions only. Keep all text concise.""",
             return result
         except Exception as retry_error:
             raise Exception(f"Quiz generation failed after retry: {str(retry_error)}")
-
-
-def test_generator():
-    """Test function for the quiz generator"""
-    # Sample Wikipedia text (shortened for testing)
-    test_text = """
-    ## Early life
-    Alan Mathison Turing was born on 23 June 1912 in Maida Vale, London. 
-    His father was part of the Indian Civil Service. Turing attended 
-    Sherborne School in Dorset.
-    
-    ## Career
-    Turing studied mathematics at King's College, Cambridge. During World War II, 
-    he worked at Bletchley Park on breaking the German Enigma code. This work 
-    was crucial to the Allied victory.
-    
-    ## Legacy
-    Turing is considered the father of theoretical computer science and 
-    artificial intelligence. The Turing Test is named after him.
-    """
-    
-    try:
-        result = generate_quiz("Alan Turing", test_text)
-        print("✓ Quiz generated successfully!")
-        print(f"Title: {result['title']}")
-        print(f"Summary: {result['summary'][:100]}...")
-        print(f"Number of questions: {len(result['quiz'])}")
-        print(f"Related topics: {result['related_topics']}")
-        return result
-    except Exception as e:
-        print(f"✗ Error: {e}")
-        return None
-
-
-if __name__ == "__main__":
-    test_generator()
