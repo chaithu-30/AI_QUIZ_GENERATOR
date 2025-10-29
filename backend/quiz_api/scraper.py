@@ -4,21 +4,6 @@ import re
 from typing import Dict, Optional
 
 def scrape_wikipedia(url: str, timeout: int = 10) -> Dict[str, str]:
-    """
-    Scrapes a Wikipedia article and returns cleaned content.
-    
-    Args:
-        url: Wikipedia article URL
-        timeout: Request timeout in seconds
-        
-    Returns:
-        Dictionary with 'title', 'cleaned_text', and 'raw_html'
-        
-    Raises:
-        ValueError: If URL is not a valid Wikipedia URL
-        requests.RequestException: If the request fails
-    """
-    # Validate Wikipedia URL
     if not url.startswith('https://en.wikipedia.org/wiki/'):
         raise ValueError("URL must be a Wikipedia article (https://en.wikipedia.org/wiki/...)")
     
