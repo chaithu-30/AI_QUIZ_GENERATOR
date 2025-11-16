@@ -129,9 +129,6 @@ function HistoryTab() {
             <tbody className="divide-y divide-gray-200">
               {history.map((quiz) => (
                 <tr key={quiz.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                    #{quiz.id}
-                  </td>
                   <td className="px-6 py-4 text-sm text-gray-900 font-medium">
                     {quiz.title}
                   </td>
