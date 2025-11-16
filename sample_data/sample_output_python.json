@@ -1,0 +1,154 @@
+{
+  "id": 1,
+  "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+  "cached": false,
+  "date_generated": "2025-11-16T15:58:23.456789",
+  "title": "Python (programming language)",
+  "summary": "Python is a high-level, general-purpose programming language emphasizing code readability through significant indentation. It supports multiple programming paradigms including structured, object-oriented and functional programming. Python is dynamically typed and garbage-collected, designed by Guido van Rossum and first released in 1991.",
+  "key_entities": {
+    "people": [
+      "Guido van Rossum",
+      "Alonzo Church",
+      "Larry Wall",
+      "James Gosling"
+    ],
+    "organizations": [
+      "Python Software Foundation",
+      "Google",
+      "Dropbox",
+      "Netflix",
+      "NASA"
+    ],
+    "locations": [
+      "Netherlands",
+      "United States",
+      "Europe"
+    ]
+  },
+  "sections": [
+    "History",
+    "Design philosophy and features",
+    "Syntax and semantics",
+    "Programming examples",
+    "Libraries",
+    "Development",
+    "Naming"
+  ],
+  "quiz": [
+    {
+      "question": "Who began working on Python in the late 1980s as a successor to the ABC programming language?",
+      "options": [
+        "Guido van Rossum",
+        "Larry Wall",
+        "James Gosling",
+        "Dennis Ritchie"
+      ],
+      "answer": "Guido van Rossum",
+      "difficulty": "easy",
+      "explanation": "Mentioned in the History section, Guido van Rossum began working on Python in the late 1980s."
+    },
+    {
+      "question": "In what year was Python 2.0 released?",
+      "options": [
+        "1991",
+        "1994",
+        "2000",
+        "2008"
+      ],
+      "answer": "2000",
+      "difficulty": "medium",
+      "explanation": "The History section states that Python 2.0 was released in 2000 with new features like list comprehensions and garbage collection."
+    },
+    {
+      "question": "What is the main design philosophy behind Python's syntax?",
+      "options": [
+        "Maximum performance",
+        "Code readability",
+        "Memory efficiency",
+        "Compile-time optimization"
+      ],
+      "answer": "Code readability",
+      "difficulty": "easy",
+      "explanation": "The Design philosophy section emphasizes code readability through significant indentation."
+    },
+    {
+      "question": "Which of these is NOT a programming paradigm supported by Python?",
+      "options": [
+        "Object-oriented",
+        "Functional",
+        "Structured",
+        "Assembly-level"
+      ],
+      "answer": "Assembly-level",
+      "difficulty": "medium",
+      "explanation": "Python supports structured, object-oriented, and functional programming paradigms as mentioned in the summary, but not assembly-level programming."
+    },
+    {
+      "question": "What unique feature does Python use for code blocks instead of curly braces?",
+      "options": [
+        "Semicolons",
+        "Parentheses",
+        "Indentation",
+        "Keywords"
+      ],
+      "answer": "Indentation",
+      "difficulty": "easy",
+      "explanation": "The Syntax section highlights that Python uses significant indentation to define code blocks rather than curly braces."
+    },
+    {
+      "question": "Which memory management feature does Python use?",
+      "options": [
+        "Manual memory allocation",
+        "Garbage collection",
+        "Reference counting only",
+        "Stack-based memory"
+      ],
+      "answer": "Garbage collection",
+      "difficulty": "medium",
+      "explanation": "The summary mentions Python is garbage-collected for automatic memory management."
+    },
+    {
+      "question": "What type system does Python use?",
+      "options": [
+        "Static typing",
+        "Dynamic typing",
+        "Strong typing only",
+        "Compile-time typing"
+      ],
+      "answer": "Dynamic typing",
+      "difficulty": "easy",
+      "explanation": "Python is dynamically typed as stated in the summary, meaning variable types are determined at runtime."
+    },
+    {
+      "question": "When did Python 3.0 officially replace Python 2.x?",
+      "options": [
+        "2000",
+        "2008",
+        "2020",
+        "2015"
+      ],
+      "answer": "2008",
+      "difficulty": "hard",
+      "explanation": "The History section indicates Python 3.0 was released in 2008 as a major revision not completely backward-compatible with Python 2.x."
+    },
+    {
+      "question": "Which organization maintains Python development?",
+      "options": [
+        "Google Foundation",
+        "Python Software Foundation",
+        "Apache Foundation",
+        "Open Source Initiative"
+      ],
+      "answer": "Python Software Foundation",
+      "difficulty": "medium",
+      "explanation": "The Development section mentions the Python Software Foundation as the organization maintaining Python."
+    }
+  ],
+  "related_topics": [
+    "Object-oriented programming",
+    "Functional programming",
+    "Dynamic programming language",
+    "CPython",
+    "pip (package installer)"
+  ]
+}
