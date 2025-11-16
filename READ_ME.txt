@@ -1,171 +1,74 @@
-# AI Wiki Quiz Generator - README
+# AI Wiki Quiz Generator - Production README
+
+## Live Deployment
+
+**Application is live and fully functional:**
+- Frontend: https://ai-quiz-generator-pink.vercel.app
+- Backend API: https://ai-quiz-generator-c20h.onrender.com
+- API Documentation: https://ai-quiz-generator-c20h.onrender.com/docs
+- Health Check: https://ai-quiz-generator-c20h.onrender.com/health
 
 ## Project Overview
 
-This is a full-stack application that generates AI-powered quizzes from Wikipedia articles using Google Gemini and FastAPI. The system scrapes Wikipedia content, processes it with a Large Language Model, and presents interactive quizzes to users.
+This is a production-ready full-stack application that generates AI-powered quizzes from Wikipedia articles using Google Gemini 2.5 Flash and FastAPI. The system automatically scrapes Wikipedia content, processes it with a Large Language Model, and presents interactive quizzes with detailed explanations.
 
 ## Technical Stack
 
-**Backend:**
+### Backend
 - Python 3.13
 - FastAPI web framework
-- SQLAlchemy ORM
-- Railway MySQL database
+- SQLAlchemy ORM with Railway MySQL
 - Google Generative AI (Gemini 2.5 Flash)
 - BeautifulSoup4 for web scraping
 - Pydantic for data validation
 
-**Frontend:**
+### Frontend
 - React 18
 - Tailwind CSS
 - Axios for HTTP requests
-
-## Features
-
-### Core Functionality
-- Generate quizzes from any Wikipedia article URL
-- Automatic extraction of article content and entities
-- AI-generated questions with multiple choice options
-- Difficulty levels (easy, medium, hard)
-- Explanations for each answer
-- Related topics suggestions
-- Quiz history with persistent storage
-- Caching to prevent duplicate processing
-
-### Bonus Features
-- URL validation
-- Interactive "Take Quiz" mode with scoring
-- Raw HTML storage in database
 - Responsive design
-- Loading states and error handling
 
-## Prerequisites
+### Deployment
+- Backend: Render (https://render.com)
+- Frontend: Vercel (https://vercel.com)
+- Database: Railway MySQL (https://railway.app)
 
-- Python 3.10 or higher
-- Node.js 16 or higher
-- MySQL database (Railway or local)
-- Google Gemini API key
+## Core Features
 
-## Installation Instructions
+### Implemented Features
+1. AI-powered quiz generation from any Wikipedia article
+2. Automatic extraction of article content and key entities
+3. 7-10 multiple choice questions with difficulty levels (easy, medium, hard)
+4. Detailed explanations for each answer
+5. Related topics suggestions
+6. Quiz history with persistent storage
+7. Caching system to prevent duplicate processing
+8. URL validation for Wikipedia articles
+9. Interactive "Take Quiz" mode with scoring
+10. Raw HTML storage in database
+11. Clean, responsive UI with Tailwind CSS
+12. Comprehensive error handling
 
-### Backend Setup
-
-1. Navigate to the backend directory:
-```bash
-cd backend
-```
-
-2. Create and activate a virtual environment:
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# Mac/Linux
-python3 -m venv venv
-source venv/bin/activate
-```
-
-3. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-4. Create a .env file with your credentials:
-```
-GEMINI_API_KEY=your_gemini_api_key_here
-DATABASE_URL=mysql+pymysql://user:password@host:port/database
-```
-
-5. Initialize the database:
-```bash
-python -c "from database import init_db; init_db()"
-```
-
-6. Start the backend server:
-```bash
-python run.py
-```
-
-The API will be available at http://localhost:8000
-
-### Frontend Setup
-
-1. Navigate to the frontend directory:
-```bash
-cd frontend
-```
-
-2. Install Node.js dependencies:
-```bash
-npm install
-```
-
-3. Create a .env file:
-```
-REACT_APP_API_URL=http://localhost:8000/api
-```
-
-4. Start the development server:
-```bash
-npm start
-```
-
-The application will open at http://localhost:3000
-
-## Project Structure
-
-```
-ai-quiz-generator/
-├── backend/
-│   ├── venv/
-│   ├── database.py              # Database models and connection
-│   ├── models.py                # Pydantic schemas for validation
-│   ├── config.py                # Application configuration
-│   ├── scraper.py               # Wikipedia scraping logic
-│   ├── llm_quiz_generator.py   # AI quiz generation
-│   ├── main.py                  # FastAPI application and endpoints
-│   ├── run.py                   # Server startup script
-│   ├── requirements.txt         # Python dependencies
-│   └── .env                     # Environment variables
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── QuizDisplay.jsx
-│   │   │   ├── Modal.jsx
-│   │   │   ├── LoadingSpinner.jsx
-│   │   │   └── TakeQuizMode.jsx
-│   │   ├── tabs/
-│   │   │   ├── GenerateQuizTab.jsx
-│   │   │   └── HistoryTab.jsx
-│   │   ├── services/
-│   │   │   └── api.js
-│   │   ├── App.js
-│   │   ├── index.js
-│   │   └── index.css
-│   ├── public/
-│   ├── package.json
-│   └── tailwind.config.js
-│
-├── sample_data/
-│   ├── test_urls.txt
-│   └── sample_outputs/
-│
-├── screenshots/
-│
-└── README.md
-```
+### Bonus Features Implemented
+- URL validation
+- Quiz caching (duplicate URL detection)
+- Raw HTML storage for reference
+- Interactive "Take Quiz" mode with user scoring
+- Minimal, professional UI design
+- Section-wise organization in quiz display
 
 ## API Documentation
 
+### Base URLs
+- Production API: https://ai-quiz-generator-c20h.onrender.com
+- API Endpoints: https://ai-quiz-generator-c20h.onrender.com/api/
+
 ### Endpoints
 
-**POST /api/generate_quiz/**
+#### 1. POST /api/generate_quiz/
+Generate a new quiz from Wikipedia URL.
 
-Generate a new quiz from a Wikipedia URL.
-
-Request body:
+**Request:**
 ```json
 {
   "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
@@ -173,13 +76,15 @@ Request body:
 }
 ```
 
-Response:
+**Response:**
 ```json
 {
   "id": 1,
   "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+  "cached": false,
+  "date_generated": "2025-11-16T15:30:00",
   "title": "Python (programming language)",
-  "summary": "Brief article summary...",
+  "summary": "Python is a high-level, general-purpose programming language...",
   "key_entities": {
     "people": ["Guido van Rossum"],
     "organizations": ["Python Software Foundation"],
@@ -195,70 +100,64 @@ Response:
       "explanation": "Mentioned in the History section."
     }
   ],
-  "related_topics": ["Programming language", "Software development"],
-  "cached": false
+  "related_topics": ["Programming language", "Software development"]
 }
 ```
 
-**GET /api/history/**
+#### 2. GET /api/history/
+Retrieve list of all generated quizzes.
 
-Retrieve a list of all generated quizzes.
-
-Response:
+**Response:**
 ```json
 [
   {
     "id": 1,
     "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
     "title": "Python (programming language)",
-    "date_generated": "2025-11-15T16:00:16"
+    "date_generated": "2025-11-16T15:30:00"
   }
 ]
 ```
 
-**GET /api/quiz/{quiz_id}/**
+#### 3. GET /api/quiz/{quiz_id}/
+Get specific quiz details by ID.
 
-Get details of a specific quiz by ID.
-
-Response:
+**Response:**
 ```json
 {
   "id": 1,
   "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
-  "date_generated": "2025-11-15T16:00:16",
+  "date_generated": "2025-11-16T15:30:00",
   "full_quiz_data": {
-    "title": "Python (programming language)",
+    "title": "...",
     "summary": "...",
-    "quiz": [...],
-    ...
+    "quiz": [...]
   }
 }
 ```
 
-**GET /health**
-
+#### 4. GET /health
 Check API health status.
 
-**GET /docs**
-
+#### 5. GET /docs
 Interactive API documentation (Swagger UI).
 
 ## Database Schema
 
-### Quiz Table
+### Quiz Table Structure
 
 | Column | Type | Description |
 |--------|------|-------------|
-| id | Integer | Primary key |
+| id | Integer | Primary key, auto-increment |
 | url | String(500) | Wikipedia article URL (unique) |
 | title | String(255) | Article title |
 | date_generated | DateTime | Quiz creation timestamp |
-| scraped_content | Text | Raw HTML content (optional) |
-| full_quiz_data | Text | JSON-serialized quiz data |
+| scraped_content | Text | Raw HTML content (first 50,000 chars) |
+| full_quiz_data | Text | Complete quiz data as JSON string |
 
 ## LLM Prompt Template
 
-The system uses a structured prompt to ensure high-quality quiz generation:
+The system uses a carefully designed prompt to ensure high-quality, factually accurate quiz generation:
 
 ```
 You are an expert educational content creator. Generate a comprehensive quiz 
@@ -276,142 +175,234 @@ ARTICLE TEXT: {article_text}
 
 YOUR TASK:
 Generate a quiz with the following structure in pure JSON format:
-- 7-10 multiple choice questions
-- Extract key entities (people, organizations, locations)
-- Identify main article sections
-- Write a concise 2-3 sentence summary
-- Suggest 5 related Wikipedia topics
+
+{
+  "title": "Article Title",
+  "summary": "Brief 2-3 sentence summary",
+  "key_entities": {
+    "people": ["Person 1", "Person 2"],
+    "organizations": ["Org 1", "Org 2"],
+    "locations": ["Location 1", "Location 2"]
+  },
+  "sections": ["Section 1", "Section 2", "Section 3"],
+  "quiz": [
+    {
+      "question": "Question text?",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "answer": "Correct option",
+      "difficulty": "easy",
+      "explanation": "Explanation with article reference"
+    }
+  ],
+  "related_topics": ["Topic 1", "Topic 2", "Topic 3", "Topic 4", "Topic 5"]
+}
 
 REQUIREMENTS:
+- Generate 7-10 questions with varied difficulty
 - Mix of easy (40%), medium (40%), hard (20%)
 - All options must be plausible but clearly distinguishable
 - Answer must exactly match one of the options
 - Related topics should be real Wikipedia article names
 ```
 
+## Local Development Setup
+
+### Prerequisites
+- Python 3.10 or higher
+- Node.js 16 or higher
+- MySQL database access
+- Google Gemini API key
+
+### Backend Setup
+
+```bash
+cd backend
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Create .env file
+echo "GEMINI_API_KEY=your_api_key_here" > .env
+echo "DATABASE_URL=your_mysql_url" >> .env
+
+# Initialize database
+python -c "from database import init_db; init_db()"
+
+# Start server
+python run.py
+```
+
+Backend will run on http://localhost:8000
+
+### Frontend Setup
+
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+
+# Create .env file
+echo "REACT_APP_API_URL=http://localhost:8000/api" > .env.development
+
+# Start development server
+npm start
+```
+
+Frontend will run on http://localhost:3000
+
 ## Testing
 
 ### Manual Testing
 
-1. Start both backend and frontend servers
-2. Open http://localhost:3000 in your browser
-3. Enter a Wikipedia URL in the input field
-4. Click "Generate Quiz" button
-5. View the generated quiz with questions and details
+1. Open https://ai-quiz-generator-pink.vercel.app
+2. Enter a Wikipedia URL in the input field
+3. Click "Generate Quiz" button
+4. Wait 20-30 seconds for AI processing
+5. View generated quiz with questions and details
 6. Switch to "Quiz History" tab
 7. Click "View Details" on any quiz
-8. Try the "Take Quiz" interactive mode
+8. Try "Take Quiz" interactive mode
 
 ### Test URLs
 
-Use these Wikipedia articles for testing:
+Use these Wikipedia articles for comprehensive testing:
 - https://en.wikipedia.org/wiki/Python_(programming_language)
 - https://en.wikipedia.org/wiki/Artificial_intelligence
 - https://en.wikipedia.org/wiki/Albert_Einstein
 - https://en.wikipedia.org/wiki/World_War_II
 - https://en.wikipedia.org/wiki/Climate_change
 
-### API Testing
+### API Testing with curl
 
-Using curl:
 ```bash
+# Test health endpoint
+curl https://ai-quiz-generator-c20h.onrender.com/health
+
 # Generate quiz
-curl -X POST http://localhost:8000/api/generate_quiz/ \
+curl -X POST https://ai-quiz-generator-c20h.onrender.com/api/generate_quiz/ \
   -H "Content-Type: application/json" \
-  -d '{"url": "https://en.wikipedia.org/wiki/Python_(programming_language)"}'
+  -d '{"url":"https://en.wikipedia.org/wiki/Python_(programming_language)","force":false}'
 
 # Get history
-curl http://localhost:8000/api/history/
+curl https://ai-quiz-generator-c20h.onrender.com/api/history/
 
 # Get specific quiz
-curl http://localhost:8000/api/quiz/1/
+curl https://ai-quiz-generator-c20h.onrender.com/api/quiz/1/
 ```
 
-## Troubleshooting
+## Project Structure
 
-### Backend Issues
-
-**Server won't start:**
-- Verify virtual environment is activated
-- Check .env file has correct API keys
-- Ensure Railway database is accessible
-- Check port 8000 is not already in use
-
-**Quiz generation fails:**
-- Verify Gemini API key is valid
-- Check API quota (15 requests per minute on free tier)
-- Ensure Wikipedia URL format is correct
-- Check network connectivity
-
-**Database errors:**
-- Verify DATABASE_URL format in .env
-- Check Railway database credentials
-- Ensure database tables are initialized
-
-### Frontend Issues
-
-**Application won't load:**
-- Verify backend is running on port 8000
-- Check REACT_APP_API_URL in .env
-- Clear browser cache and reload
-- Check console for JavaScript errors
-
-**CORS errors:**
-- Verify CORS middleware is configured in main.py
-- Check allowed origins include localhost:3000
-- Restart both frontend and backend servers
-
-## Deployment
-
-### Backend Deployment (Railway/Render)
-
-1. Create a new project on Railway or Render
-2. Connect your GitHub repository
-3. Set environment variables (GEMINI_API_KEY, DATABASE_URL)
-4. Deploy from main branch
-5. Note the deployed API URL
-
-### Frontend Deployment (Vercel/Netlify)
-
-1. Build the production version:
-```bash
-npm run build
 ```
-
-2. Deploy to Vercel or Netlify
-3. Set REACT_APP_API_URL to your deployed backend URL
-4. Deploy from build folder
+ai-quiz-generator/
+├── backend/
+│   ├── database.py              # SQLAlchemy models and connection
+│   ├── models.py                # Pydantic schemas
+│   ├── config.py                # Configuration settings
+│   ├── scraper.py               # Wikipedia scraping logic
+│   ├── llm_quiz_generator.py   # AI quiz generation
+│   ├── main.py                  # FastAPI application
+│   ├── run.py                   # Server startup script
+│   ├── requirements.txt         # Python dependencies
+│   └── .env                     # Environment variables (not in git)
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── QuizDisplay.jsx      # Quiz rendering component
+│   │   │   ├── Modal.jsx            # Modal dialog component
+│   │   │   ├── LoadingSpinner.jsx   # Loading state component
+│   │   │   └── TakeQuizMode.jsx     # Interactive quiz component
+│   │   ├── tabs/
+│   │   │   ├── GenerateQuizTab.jsx  # Quiz generation tab
+│   │   │   └── HistoryTab.jsx       # Quiz history tab
+│   │   ├── services/
+│   │   │   └── api.js               # API client
+│   │   ├── App.js                   # Main application component
+│   │   ├── index.js                 # React entry point
+│   │   └── index.css                # Tailwind CSS styles
+│   ├── public/
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── .env.production              # Production environment vars
+│
+└── README.md                        # This file
+```
 
 ## Performance Considerations
 
 - Quiz generation takes 20-30 seconds on average
-- Caching reduces load time for duplicate URLs
-- Free tier Gemini API has rate limits (15 requests/minute)
+- Caching reduces response time for duplicate URLs to under 1 second
+- Free tier Gemini API has rate limits (15 requests per minute)
 - Database connection pooling handles concurrent requests
 - Frontend uses loading states for better user experience
+- Render free tier may have cold start delays (30-60 seconds for first request)
 
-## Security Notes
+## Security Features
 
-- Never commit .env files to version control
-- Rotate API keys regularly
-- Use environment variables for all sensitive data
-- Validate all user inputs on backend
-- Sanitize Wikipedia content before processing
-- Use HTTPS in production
+- Environment variables for sensitive data
+- Input validation on all endpoints
+- URL format validation for Wikipedia links
+- CORS protection with allowed origins
+- SQL injection prevention via SQLAlchemy ORM
+- Content sanitization before processing
+- Error messages don't expose internal details
+
+## Known Limitations
+
+- Free tier Render deployment has cold starts after inactivity
+- Gemini API rate limits on free tier (15 requests/minute)
+- Railway MySQL free tier limited to 500MB storage
+- Very long Wikipedia articles (>15,000 chars) are truncated
+- Quiz generation time varies based on article length
+
+## Troubleshooting
+
+### Backend Issues
+- **Server cold start**: First request may take 30-60 seconds
+- **Rate limit errors**: Wait 60 seconds between requests on free tier
+- **Database connection errors**: Check Railway MySQL status
+
+### Frontend Issues
+- **CORS errors**: Verify backend CORS settings include your Vercel URL
+- **API timeout**: Quiz generation can take up to 30 seconds
+- **Blank page**: Check browser console for JavaScript errors
+
+## Future Improvements
+
+- Add Redis caching for faster response times
+- Implement user authentication and quiz management
+- Add quiz sharing functionality
+- Support for multiple languages
+- Question difficulty analysis
+- Export quiz to PDF functionality
+- Quiz analytics dashboard
 
 ## License
 
 This project was developed as part of the DeepKlarity Technologies technical assessment.
 
-## Author
+## Contact
 
-Full Stack Developer
-Contact: your.email@example.com
+For questions or issues, please contact the developer.
 
 ## Acknowledgments
 
 - Google Gemini API for AI capabilities
-- FastAPI framework for backend
+- FastAPI framework for backend development
 - React and Tailwind CSS for frontend
+- Render for backend hosting
+- Vercel for frontend hosting
 - Railway for database hosting
 - Wikipedia for content source
+
+***
