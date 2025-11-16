@@ -23,13 +23,15 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
+# CORS configuration - IMPORTANT: Allow your Vercel domain
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-        "https://*.vercel.app",  # Allow all Vercel deployments
-        "*"  # For testing - remove in production
+        "https://ai-quiz-generator-git-master-chaithanyas-projects-392bdd1f.vercel.app",
+        "https://*.vercel.app",
+        "*"  # Remove this in production for security
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -41,17 +43,16 @@ app.add_middleware(
 async def startup_event():
     """Initialize database and test connections on startup"""
     print("\n" + "="*50)
-    print("🚀 Starting AI Wiki Quiz Generator")
+    print("Starting AI Wiki Quiz Generator")
     print("="*50)
     
-    # Test database connection
     if test_connection():
         init_db()
     else:
-        print("⚠️ Warning: Database connection issues detected")
+        print("Warning: Database connection issues detected")
     
-    print(f"✓ Server running on {settings.HOST}:{settings.PORT}")
-    print(f"✓ Debug mode: {settings.DEBUG}")
+    print(f"Server running on {settings.HOST}:{settings.PORT}")
+    print(f"Debug mode: {settings.DEBUG}")
     print("="*50 + "\n")
 
 # Root endpoint
@@ -75,8 +76,8 @@ async def root():
 async def health_check(db: Session = Depends(get_db)):
     """Check if API and database are healthy"""
     try:
-        # Test database query
-        db.execute("SELECT 1")
+        from sqlalchemy import text
+        db.execute(text("SELECT 1"))
         return {
             "status": "healthy",
             "database": "connected",
@@ -96,12 +97,7 @@ async def generate_quiz(
     request: QuizGenerateRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Generate quiz from Wikipedia URL with caching support.
-    
-    - **url**: Wikipedia article URL (https://en.wikipedia.org/wiki/...)
-    - **force**: Force regenerate even if cached (default: False)
-    """
+    """Generate quiz from Wikipedia URL with caching support"""
     try:
         # Validate URL format
         if not validate_wikipedia_url(request.url):
@@ -114,7 +110,7 @@ async def generate_quiz(
         existing_quiz = db.query(Quiz).filter(Quiz.url == request.url).first()
         
         if existing_quiz and not request.force:
-            print(f"📦 Returning cached quiz for: {request.url}")
+            print(f"Returning cached quiz for: {request.url}")
             quiz_data = json.loads(existing_quiz.full_quiz_data)
             return {
                 "id": existing_quiz.id,
@@ -125,10 +121,10 @@ async def generate_quiz(
             }
         
         # Step 1: Scrape Wikipedia
-        print(f"🌐 Scraping Wikipedia: {request.url}")
+        print(f"Scraping Wikipedia: {request.url}")
         try:
             title, clean_text, raw_html = scrape_wikipedia(request.url)
-            print(f"✓ Scraped: {title} ({len(clean_text)} characters)")
+            print(f"Scraped: {title} ({len(clean_text)} characters)")
         except ValueError as e:
             raise HTTPException(status_code=400, detail=str(e))
         except Exception as e:
@@ -137,33 +133,31 @@ async def generate_quiz(
         # Step 2: Generate quiz with LLM
         try:
             quiz_data = generate_quiz_from_article(title, clean_text)
-            print(f"✓ Generated {len(quiz_data['quiz'])} questions")
+            print(f"Generated {len(quiz_data['quiz'])} questions")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"LLM error: {str(e)}")
         
         # Step 3: Save to database
         try:
             if existing_quiz:
-                # Update existing
                 existing_quiz.full_quiz_data = json.dumps(quiz_data)
-                existing_quiz.scraped_content = raw_html[:50000]  # Limit size
+                existing_quiz.scraped_content = raw_html[:50000]
                 existing_quiz.date_generated = datetime.utcnow()
                 db.commit()
                 quiz_id = existing_quiz.id
-                print(f"✓ Updated quiz ID: {quiz_id}")
+                print(f"Updated quiz ID: {quiz_id}")
             else:
-                # Create new
                 new_quiz = Quiz(
                     url=request.url,
                     title=title,
                     full_quiz_data=json.dumps(quiz_data),
-                    scraped_content=raw_html[:50000]  # Limit to avoid MySQL max_packet issues
+                    scraped_content=raw_html[:50000]
                 )
                 db.add(new_quiz)
                 db.commit()
                 db.refresh(new_quiz)
                 quiz_id = new_quiz.id
-                print(f"✓ Saved new quiz ID: {quiz_id}")
+                print(f"Saved new quiz ID: {quiz_id}")
         except Exception as e:
             db.rollback()
             raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
@@ -179,19 +173,16 @@ async def generate_quiz(
     except HTTPException:
         raise
     except Exception as e:
-        print(f"✗ Unexpected error: {str(e)}")
+        print(f"Unexpected error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
 # ENDPOINT 2: Get Quiz History
 @app.get("/api/history/", response_model=List[QuizHistoryItem])
 async def get_history(db: Session = Depends(get_db)):
-    """
-    Get list of all generated quizzes.
-    Returns: List of quizzes with basic info (no full quiz data)
-    """
+    """Get list of all generated quizzes"""
     try:
         quizzes = db.query(Quiz).order_by(Quiz.date_generated.desc()).all()
-        print(f"📋 Returning {len(quizzes)} quizzes from history")
+        print(f"Returning {len(quizzes)} quizzes from history")
         return quizzes
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
@@ -199,10 +190,7 @@ async def get_history(db: Session = Depends(get_db)):
 # ENDPOINT 3: Get Quiz Details
 @app.get("/api/quiz/{quiz_id}/")
 async def get_quiz_details(quiz_id: int, db: Session = Depends(get_db)):
-    """
-    Get complete quiz data for specific quiz ID.
-    Returns: Full quiz with questions, entities, and related topics
-    """
+    """Get complete quiz data for specific quiz ID"""
     try:
         quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
         
@@ -212,10 +200,9 @@ async def get_quiz_details(quiz_id: int, db: Session = Depends(get_db)):
                 detail=f"Quiz with ID {quiz_id} not found"
             )
         
-        # Deserialize JSON
         quiz_data = json.loads(quiz.full_quiz_data)
         
-        print(f"📖 Retrieved quiz ID: {quiz_id} - {quiz.title}")
+        print(f"Retrieved quiz ID: {quiz_id} - {quiz.title}")
         
         return {
             "id": quiz.id,
@@ -231,7 +218,7 @@ async def get_quiz_details(quiz_id: int, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
-# Custom exception handler
+# Exception handler
 @app.exception_handler(422)
 async def validation_exception_handler(request, exc):
     """Handle validation errors with user-friendly messages"""

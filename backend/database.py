@@ -12,19 +12,19 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    raise ValueError("DATABASE_URL not found in environment variables. Please check your .env file.")
+    raise ValueError("DATABASE_URL not found in environment variables")
 
-# Create engine with improved Railway MySQL settings
+# Create engine with production settings
 engine = create_engine(
     DATABASE_URL,
-    poolclass=NullPool,  # Use NullPool to avoid connection pooling issues with Railway
+    poolclass=NullPool,  # Important for Render deployment
     connect_args={
         "connect_timeout": 30,
         "read_timeout": 60,
         "write_timeout": 60,
         "charset": "utf8mb4"
     },
-    echo=False  # Set to True for SQL debugging
+    echo=False
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -38,8 +38,8 @@ class Quiz(Base):
     url = Column(String(500), unique=True, nullable=False, index=True)
     title = Column(String(255), nullable=False)
     date_generated = Column(DateTime, default=datetime.utcnow)
-    scraped_content = Column(Text, nullable=True)  # Stores raw HTML
-    full_quiz_data = Column(Text, nullable=False)  # JSON stored as text
+    scraped_content = Column(Text, nullable=True)
+    full_quiz_data = Column(Text, nullable=False)
     
     def __repr__(self):
         return f"<Quiz(id={self.id}, title='{self.title}')>"
@@ -49,19 +49,17 @@ def init_db():
     """Create all tables in the database"""
     try:
         Base.metadata.create_all(bind=engine)
-        print("✓ Database connected successfully to Railway MySQL")
-        print("✓ Tables created/verified")
+        print("Database connected successfully")
+        print("Tables created/verified")
     except Exception as e:
-        print(f"✗ Database initialization failed: {e}")
-        print("Please check your Railway database credentials")
+        print(f"Database initialization failed: {e}")
         raise
 
-# Dependency for FastAPI - with automatic reconnection
+# Dependency for FastAPI
 def get_db():
-    """Provides a database session for each request with automatic reconnection"""
+    """Provides a database session for each request"""
     db = SessionLocal()
     try:
-        # Test connection before yielding
         db.execute(text("SELECT 1"))
         yield db
     except Exception as e:
@@ -79,11 +77,11 @@ def test_connection():
             result = connection.execute(text("SELECT 1"))
             row = result.fetchone()
             if row and row[0] == 1:
-                print("✓ Database connection test successful")
+                print("Database connection test successful")
                 return True
             else:
-                print("✗ Unexpected result from database")
+                print("Unexpected result from database")
                 return False
     except Exception as e:
-        print(f"✗ Database connection test failed: {e}")
+        print(f"Database connection test failed: {e}")
         return False

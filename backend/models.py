@@ -1,44 +1,13 @@
-from pydantic import BaseModel, Field, field_validator
-from typing import List, Dict
+from pydantic import BaseModel, Field
+from typing import List, Optional, Dict
 from datetime import datetime
 
-# Schema for individual quiz questions
-class QuizQuestion(BaseModel):
-    question: str = Field(..., description="The quiz question text")
-    options: List[str] = Field(..., min_length=4, max_length=4, description="Four answer options")
-    answer: str = Field(..., description="The correct answer")
-    difficulty: str = Field(..., pattern="^(easy|medium|hard)$", description="Question difficulty level")
-    explanation: str = Field(..., description="Explanation for the answer")
-    
-    @field_validator('options')
-    @classmethod
-    def validate_options_unique(cls, v):
-        """Ensure all options are unique"""
-        if len(v) != len(set(v)):
-            raise ValueError('All options must be unique')
-        return v
-
-# Schema for key entities extracted from article
-class KeyEntities(BaseModel):
-    people: List[str] = Field(default_factory=list)
-    organizations: List[str] = Field(default_factory=list)
-    locations: List[str] = Field(default_factory=list)
-
-# Complete quiz output schema
-class QuizOutput(BaseModel):
-    title: str = Field(..., description="Article title")
-    summary: str = Field(..., min_length=50, description="Brief article summary")
-    key_entities: KeyEntities
-    sections: List[str] = Field(..., min_length=1, description="Main article sections")
-    quiz: List[QuizQuestion] = Field(..., min_length=5, max_length=10)
-    related_topics: List[str] = Field(..., min_length=3, description="Related Wikipedia topics")
-
-# Request schema for quiz generation
+# Input model for quiz generation request
 class QuizGenerateRequest(BaseModel):
-    url: str = Field(..., pattern="^https://en\\.wikipedia\\.org/wiki/.+$")
-    force: bool = Field(default=False, description="Force regenerate even if exists")
+    url: str = Field(..., description="Wikipedia article URL")
+    force: bool = Field(default=False, description="Force regenerate even if cached")
 
-# Response schema for history endpoint
+# Output model for quiz history items
 class QuizHistoryItem(BaseModel):
     id: int
     url: str
@@ -48,13 +17,49 @@ class QuizHistoryItem(BaseModel):
     class Config:
         from_attributes = True
 
-# Response schema for quiz details
-class QuizDetailResponse(BaseModel):
-    id: int
-    url: str
-    title: str
-    summary: str
-    key_entities: Dict
-    sections: List[str]
-    quiz: List[Dict]
-    related_topics: List[str]
+# Individual quiz question schema
+class QuizQuestion(BaseModel):
+    question: str = Field(..., description="The quiz question text")
+    options: List[str] = Field(..., description="Four answer options (A-D)", min_length=4, max_length=4)
+    answer: str = Field(..., description="The correct answer")
+    difficulty: str = Field(..., description="Difficulty level: easy, medium, or hard")
+    explanation: str = Field(..., description="Brief explanation with article reference")
+
+# Key entities extracted from article
+class KeyEntities(BaseModel):
+    people: List[str] = Field(default_factory=list, description="People mentioned in the article")
+    organizations: List[str] = Field(default_factory=list, description="Organizations mentioned")
+    locations: List[str] = Field(default_factory=list, description="Locations mentioned")
+
+# Complete quiz output schema
+class QuizOutput(BaseModel):
+    title: str = Field(..., description="Article title")
+    summary: str = Field(..., description="Brief 2-3 sentence summary")
+    key_entities: KeyEntities = Field(..., description="Extracted key entities")
+    sections: List[str] = Field(..., description="Main article sections")
+    quiz: List[QuizQuestion] = Field(..., description="List of quiz questions", min_length=5, max_length=10)
+    related_topics: List[str] = Field(..., description="Related Wikipedia topics", min_length=3, max_length=5)
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "title": "Python (programming language)",
+                "summary": "Python is a high-level programming language...",
+                "key_entities": {
+                    "people": ["Guido van Rossum"],
+                    "organizations": ["Python Software Foundation"],
+                    "locations": ["Netherlands"]
+                },
+                "sections": ["History", "Design philosophy", "Syntax"],
+                "quiz": [
+                    {
+                        "question": "Who created Python?",
+                        "options": ["Guido van Rossum", "Linus Torvalds", "James Gosling", "Dennis Ritchie"],
+                        "answer": "Guido van Rossum",
+                        "difficulty": "easy",
+                        "explanation": "Mentioned in the History section."
+                    }
+                ],
+                "related_topics": ["Programming language", "Software development", "Computer science"]
+            }
+        }
