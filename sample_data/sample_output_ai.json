@@ -1,0 +1,159 @@
+{
+  "id": 2,
+  "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+  "cached": false,
+  "date_generated": "2025-11-16T16:02:45.123456",
+  "title": "Artificial intelligence",
+  "summary": "Artificial intelligence (AI) is the intelligence of machines or software, as opposed to the intelligence of humans or animals. It is a field of study in computer science that develops and studies intelligent machines. AI research has been defined as the field devoted to building intelligent agents, systems that perceive their environment and take actions that maximize their chance of achieving their goals.",
+  "key_entities": {
+    "people": [
+      "Alan Turing",
+      "John McCarthy",
+      "Marvin Minsky",
+      "Geoffrey Hinton",
+      "Yann LeCun",
+      "Yoshua Bengio"
+    ],
+    "organizations": [
+      "OpenAI",
+      "DeepMind",
+      "Google",
+      "Microsoft",
+      "IBM",
+      "MIT",
+      "Stanford University"
+    ],
+    "locations": [
+      "United States",
+      "United Kingdom",
+      "Canada",
+      "China"
+    ]
+  },
+  "sections": [
+    "History",
+    "Goals",
+    "Approaches",
+    "Applications",
+    "Philosophy and ethics",
+    "Future",
+    "In fiction"
+  ],
+  "quiz": [
+    {
+      "question": "Who is credited with coining the term 'Artificial Intelligence' in 1956?",
+      "options": [
+        "Alan Turing",
+        "John McCarthy",
+        "Marvin Minsky",
+        "Claude Shannon"
+      ],
+      "answer": "John McCarthy",
+      "difficulty": "medium",
+      "explanation": "The History section notes that John McCarthy coined the term 'Artificial Intelligence' at the Dartmouth Conference in 1956."
+    },
+    {
+      "question": "What is the Turing Test designed to evaluate?",
+      "options": [
+        "Computer processing speed",
+        "Machine's ability to exhibit intelligent behavior",
+        "Network bandwidth",
+        "Algorithm efficiency"
+      ],
+      "answer": "Machine's ability to exhibit intelligent behavior",
+      "difficulty": "easy",
+      "explanation": "The History section describes the Turing Test as a measure of a machine's ability to exhibit intelligent behavior indistinguishable from a human."
+    },
+    {
+      "question": "Which AI approach uses layers of artificial neurons to process data?",
+      "options": [
+        "Expert systems",
+        "Symbolic AI",
+        "Neural networks",
+        "Genetic algorithms"
+      ],
+      "answer": "Neural networks",
+      "difficulty": "medium",
+      "explanation": "The Approaches section explains that neural networks use interconnected layers of artificial neurons inspired by biological neural networks."
+    },
+    {
+      "question": "What type of learning involves training on labeled datasets?",
+      "options": [
+        "Unsupervised learning",
+        "Supervised learning",
+        "Reinforcement learning",
+        "Transfer learning"
+      ],
+      "answer": "Supervised learning",
+      "difficulty": "easy",
+      "explanation": "The Approaches section defines supervised learning as training AI models using labeled data where the correct output is provided."
+    },
+    {
+      "question": "Which decade saw the first 'AI winter' due to reduced funding?",
+      "options": [
+        "1960s",
+        "1970s",
+        "1980s",
+        "1990s"
+      ],
+      "answer": "1970s",
+      "difficulty": "hard",
+      "explanation": "The History section mentions the first AI winter occurred in the 1970s when funding and interest in AI research declined significantly."
+    },
+    {
+      "question": "What ethical concern involves AI systems making unfair decisions?",
+      "options": [
+        "Privacy invasion",
+        "Algorithmic bias",
+        "Job displacement",
+        "Energy consumption"
+      ],
+      "answer": "Algorithmic bias",
+      "difficulty": "medium",
+      "explanation": "The Philosophy and ethics section discusses algorithmic bias as a major concern where AI systems may perpetuate or amplify unfair biases."
+    },
+    {
+      "question": "Which application area uses AI for understanding and generating human language?",
+      "options": [
+        "Computer vision",
+        "Robotics",
+        "Natural language processing",
+        "Expert systems"
+      ],
+      "answer": "Natural language processing",
+      "difficulty": "easy",
+      "explanation": "The Applications section identifies natural language processing (NLP) as the field focused on enabling machines to understand and generate human language."
+    },
+    {
+      "question": "What is the goal of Artificial General Intelligence (AGI)?",
+      "options": [
+        "Narrow task automation",
+        "Human-level intelligence across all domains",
+        "Faster computation",
+        "Better data storage"
+      ],
+      "answer": "Human-level intelligence across all domains",
+      "difficulty": "medium",
+      "explanation": "The Goals section describes AGI as AI that can understand, learn, and apply intelligence across a wide range of tasks at human level."
+    },
+    {
+      "question": "Which company developed the AlphaGo program that defeated world champions?",
+      "options": [
+        "OpenAI",
+        "IBM",
+        "DeepMind",
+        "Microsoft"
+      ],
+      "answer": "DeepMind",
+      "difficulty": "hard",
+      "explanation": "The Applications section mentions DeepMind's AlphaGo as a breakthrough AI that defeated world Go champions using deep learning and reinforcement learning."
+    }
+  ],
+  "related_topics": [
+    "Machine learning",
+    "Deep learning",
+    "Neural networks",
+    "Natural language processing",
+    "Computer vision"
+  ]
+}
